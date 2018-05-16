@@ -3,16 +3,4 @@ name = "rustos"
 version = "0.1.0"
 authors = ["Benjamin Bäumler <baeumler.benjamin@qqwa.de>"]
 
-[profile.dev]
-panic = "abort"
-
-[profile.release]
-panic = "abort"
-
-[lib]
-name = "kernel"
-path = "src/kernel.rs"
-crate-type = ["staticlib"]
-
 [dependencies]
-
