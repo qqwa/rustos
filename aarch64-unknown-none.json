@@ -9,11 +9,18 @@
     "executables": true,
     "linker-flavor": "ld.lld",
     "panic-strategy": "abort",
+    "no-compiler-rt": true,
+    "no-default-libraries": true,
+    "dynamic-linking": false,
+    "position-independent-executables": false,
+    "has-rpath": false,
+    "relocation-model": "pic",
+    "eliminate-frame-pointer": false,
     "disable-redzone": true,
     "features": "+a53,+strict-align",
     "pre-link-args": {
 	"ld.lld": [
-	    "--script=link.ld"
+		"--script=link.ld"
 	]
     }
 }

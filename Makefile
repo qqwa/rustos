@@ -1,31 +1,21 @@
-CARGO = cargo
-RUSTFLAGS+=-Z pre-link-arg=-nostartfiles
-TARGET=aarch64-unknown-none-elf
-TARGET_FILE=.cargo/$(TARGET).json
+ARCH=aarch64
+TARGET=$(ARCH)-unknown-none
+LD=ld.lld
 
-CARGO_OPTS=--target=$(TARGET_FILE)
-ifdef emit
-	# emit generated code eg.: emit=asm
-	RUSTFLAGS+=--emit $(emit)
-endif
+CARGO_OPTS=--target=$(TARGET) --release
+RUST_TARGET_PATH=$(PWD)
 
-all:
-	$(MAKE) build
-	$(MAKE) doc
+all: build/$(ARCH)/kernel.bin
 
-build:
-	$(CARGO) build $(CARGO_OPTS)
+build/$(ARCH)/kernel: src/*.rs src/*.s Cargo.toml
+	mkdir -p $(@D)
+	xargo rustc $(CARGO_OPTS) -- -C soft-float --emit=link=$@ --emit=asm=$@.s
+
+build/$(ARCH)/kernel.bin: build/$(ARCH)/kernel link.ld
+	$(LD) --oformat binary -m aarch64elf --script link.ld --output $@ $<
 
 clean:
-	$(CARGO) clean $(CARGO_OPTS)
+	cargo clean
+	rm -rf build
 
-check:
-	$(CARGO) check $(CARGO_OPTS)
-
-test:
-	$(CARGO) test $(CARGO_OPTS)
-
-doc:
-	$(CARGO) doc $(CARGO_OPTS)
-
-.PHONY: all build clean check test doc
+.PHONY: clean
