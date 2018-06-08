@@ -10,5 +10,6 @@ SECTIONS
     .rodata : { *(.rodata) }
     . = ALIGN(8);
     . = . + 0x4000;
-    stack_top = .;
+    __stack_top = .;
+
 }
