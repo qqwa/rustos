@@ -7,6 +7,8 @@
 #![feature(naked_functions)]
 #![feature(asm)]
 
+mod arch;
+
 global_asm!(include_str!("head.s"));
 global_asm!(include_str!("sp.s"));
 
@@ -30,9 +32,10 @@ const N: usize = 6;
 
 // print char to uart
 // const UART: *mut u32 = 0x30890040 as *mut u32;
-const UART: *mut u32 = 0x9000000 as *mut u32;
+// const UART: *mut u32 = 0x9000000 as *mut u32;
 unsafe fn print_char(c: char) {
-    *UART = c as u32;
+    // *UART = c as u32;
+    *arch::config::UART = c as u32;
 }
 
 fn print(data: &str) {
