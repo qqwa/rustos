@@ -7,6 +7,7 @@
 #![feature(naked_functions)]
 #![feature(asm)]
 
+#[macro_use]
 mod arch;
 
 global_asm!(include_str!("head.s"));
@@ -14,6 +15,11 @@ global_asm!(include_str!("sp.s"));
 
 #[panic_implementation]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
+    loop {}
+}
+
+#[no_mangle]
+pub extern "C" fn rust_begin_unwind(_fmt: ::core::fmt::Arguments, _file: &str, _line: u32) -> ! {
     loop {}
 }
 
@@ -46,6 +52,7 @@ fn print(data: &str) {
 
 #[no_mangle]
 pub extern "C" fn rust_entry() -> ! {
-    print("Hello World!\n");
+    print("First World!\n");
+    println!("Hello World!");
     loop {}
 }

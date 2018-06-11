@@ -21,7 +21,7 @@
 _head:
     b      _RESET  // branch to kernel start, magic
     .long   0       // reserved
-    .quad   0       // Image load offset
+    .quad   0x00080000       // Image load offset
     .quad   0       // Effective size of kernel image
     .quad   0       // Information flags
     .quad   0       // reserved

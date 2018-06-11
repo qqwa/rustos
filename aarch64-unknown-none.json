@@ -17,7 +17,7 @@
     "relocation-model": "pic",
     "eliminate-frame-pointer": false,
     "disable-redzone": true,
-    "features": "+a53,+strict-align",
+    "features": "+a53,+strict-align,-neon",
     "pre-link-args": {
 	"ld.lld": [
 		"--script=link.ld"
