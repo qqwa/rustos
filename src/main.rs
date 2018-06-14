@@ -9,6 +9,7 @@
 
 #[macro_use]
 mod arch;
+mod uart;
 
 global_asm!(include_str!("head.s"));
 global_asm!(include_str!("sp.s"));
@@ -36,23 +37,8 @@ const N: usize = 6;
 //     None,
 // ];
 
-// print char to uart
-// const UART: *mut u32 = 0x30890040 as *mut u32;
-// const UART: *mut u32 = 0x9000000 as *mut u32;
-unsafe fn print_char(c: char) {
-    // *UART = c as u32;
-    *arch::config::UART = c as u32;
-}
-
-fn print(data: &str) {
-    for c in data.chars() {
-        unsafe { print_char(c); }
-    }
-}
-
 #[no_mangle]
 pub extern "C" fn rust_entry() -> ! {
-    print("First World!\n");
-    println!("Hello World!");
+    println!("Hello World! 0x{:x}", 42);
     loop {}
 }
