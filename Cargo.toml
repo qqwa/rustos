@@ -1,10 +1,5 @@
-[package]
-name = "rustos"
-version = "0.1.0"
-authors = ["Benjamin Bäumler <baeumler.benjamin@qqwa.de>"]
+[workspace]
 
-[package.metadata.cargo-xbuild]
-memcpy = true
-sysroot_path = "sysroot"
-
-[dependencies]
+members = [
+    "kernel",
+]
