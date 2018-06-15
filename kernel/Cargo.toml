@@ -8,3 +8,4 @@ memcpy = true
 sysroot_path = "sysroot"
 
 [dependencies]
+armv8_a = { path = "../armv8_a" }
