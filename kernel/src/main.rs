@@ -7,6 +7,8 @@
 #![feature(naked_functions)]
 #![feature(asm)]
 
+extern crate armv8_a;
+
 #[macro_use]
 mod arch;
 mod uart;
@@ -40,5 +42,11 @@ const N: usize = 6;
 #[no_mangle]
 pub extern "C" fn rust_entry() -> ! {
     println!("Hello World! 0x{:x}", 42);
+    unsafe {
+        println!("CurrentEL:    {:b}", armv8_a::raw::get_current_el());
+        println!("NZCV:        {:b}", armv8_a::raw::get_nzcv());
+        armv8_a::raw::set_nzcv(0b1000000000000000000000000000000);
+        println!("NZCV:        {:b}", armv8_a::raw::get_nzcv());
+    }
     loop {}
 }

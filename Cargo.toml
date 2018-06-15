@@ -2,4 +2,5 @@
 
 members = [
     "kernel",
+    "armv8_a",
 ]
