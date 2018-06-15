@@ -11,7 +11,7 @@ export RUSTFLAGS
 all: build/$(ARCH)/kernel.bin build/$(ARCH)/qernel.bin
 
 build/$(ARCH)/kernel: RUSTFLAGS=--cfg device="imx8" --emit=asm=$@.s -C soft-float
-build/$(ARCH)/kernel: src/*.rs src/*.s Cargo.toml
+build/$(ARCH)/kernel: */src/*.rs */src/*.s Cargo.toml
 	mkdir -p $(@D)
 	echo $$RUSTFLAGS
 	cargo xbuild $(CARGO_OPTS)
