@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["Benjamin Bäumler <benjamin.baeumler@qqwa.de>"]
 
 [dependencies]
+bitfield = "0.13.0"

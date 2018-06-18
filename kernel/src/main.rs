@@ -23,27 +23,23 @@ fn panic(info: &core::panic::PanicInfo) -> ! {
     loop {}
 }
 
-const N: usize = 6;
-// #[link_section = ".vector_table.interrupts"]
-// #[no_mangle]
-// #[used]
-// static INTERRUPTS: [Option<extern "C" fn()>; N] = [
-//     Some(RESET),
-//     None,
-//     None,
-//     None,
-//     None,
-//     None,
-// ];
-
 #[no_mangle]
 pub extern "C" fn rust_entry() -> ! {
-    println!("Hello World! 0x{:x}", 42);
+    // let midr;
+    let mpidr;
     unsafe {
+        println!("Hello World! 0x{:x}", 42);
         println!("CurrentEL:    {:b}", armv8_a::raw::get_current_el());
-        println!("NZCV:        {:b}", armv8_a::raw::get_nzcv());
+        println!("NZCV:         {:b}", armv8_a::raw::get_nzcv());
         armv8_a::raw::set_nzcv(0b1000000000000000000000000000000);
-        println!("NZCV:        {:b}", armv8_a::raw::get_nzcv());
+        println!("NZCV:         {:b}", armv8_a::raw::get_nzcv());
+        println!("MIDR:         {:b}", armv8_a::raw::get_midr_el1());
+        println!("MPIDR:        {:b}", armv8_a::raw::get_mpidr_el1());
+        // midr = armv8_a::MPIDR(armv8_a::raw::get_vmpidr_el2());
+        mpidr = armv8_a::MPIDR(armv8_a::raw::get_mpidr_el1());
     }
+    // println!("{:?}", midr);
+    println!("{:?}", mpidr);
     loop {}
 }
+
