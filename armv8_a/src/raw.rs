@@ -38,6 +38,8 @@ macro_rules! instr {
     }
 }
 
+// special-purpose registers
+
 rreg!(
     /// determine the current Exception level
     get_current_el, u32, "mrs", "CurrentEL"
@@ -237,4 +239,18 @@ rreg!(
 wreg!(
     /// holds process state on entry to Debug state
     set_dspsr_el0, u32, "msr", "DSPSR_EL0"
+);
+
+// General system control registers
+
+rreg!(
+    get_midr_el1, u32, "mrs", "MIDR_EL1"
+);
+
+rreg!(
+    get_mpidr_el1, u64, "mrs", "MPIDR_EL1"
+);
+
+rreg!(
+    get_vmpidr_el2, u64, "mrs", "VMPIDR_EL2"
 );
