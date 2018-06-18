@@ -17,12 +17,9 @@ global_asm!(include_str!("head.s"));
 global_asm!(include_str!("sp.s"));
 
 #[panic_implementation]
-fn panic(_info: &core::panic::PanicInfo) -> ! {
-    loop {}
-}
-
 #[no_mangle]
-pub extern "C" fn rust_begin_unwind(_fmt: ::core::fmt::Arguments, _file: &str, _line: u32) -> ! {
+fn panic(info: &core::panic::PanicInfo) -> ! {
+    println!("Error: {}", info);
     loop {}
 }
 
