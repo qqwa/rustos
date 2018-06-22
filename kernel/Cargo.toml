@@ -9,3 +9,7 @@ sysroot_path = "sysroot"
 
 [dependencies]
 armv8_a = { path = "../armv8_a" }
+bitfield = "0.13.0"
+
+[features]
+verbose-exception-handler = []

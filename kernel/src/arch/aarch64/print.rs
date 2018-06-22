@@ -17,6 +17,9 @@ impl fmt::Write for Writer {
             unsafe {
                 // *super::config::UART = c as u32;
                 self.uart.print_char(c);
+                if(c == '\n') {
+                    self.uart.print_char('\r');
+                }
             }
         }
         Ok(())
