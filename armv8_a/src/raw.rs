@@ -254,3 +254,10 @@ rreg!(
 rreg!(
     get_vmpidr_el2, u64, "mrs", "VMPIDR_EL2"
 );
+
+rreg!(
+    get_cpacr_el1, u32, "mrs", "CPACR_EL1"
+);
+wreg!(
+    set_cpacr_el1, u32, "msr", "CPACR_EL1"
+);
