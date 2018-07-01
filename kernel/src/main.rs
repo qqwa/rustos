@@ -16,9 +16,6 @@ extern crate bitfield;
 mod arch;
 mod uart;
 
-global_asm!(include_str!("head.s"));
-global_asm!(include_str!("sp.s"));
-
 #[panic_implementation]
 #[no_mangle]
 fn panic(info: &core::panic::PanicInfo) -> ! {

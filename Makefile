@@ -3,7 +3,7 @@ TARGET=$(ARCH)-unknown-none
 LD=ld.lld
 
 CARGO_OPTS=--target=$(TARGET) --release --features "verbose-exception-handler"
-RUST_TARGET_PATH=$(PWD)
+RUST_TARGET_PATH=$(PWD)/targets
 RUSTFLAGS=-C soft-float
 RUSTDOC=./rustdoc.sh
 
@@ -11,25 +11,16 @@ export RUSTFLAGS
 export RUST_TARGET_PATH
 export RUSTDOC
 
-all: build/$(ARCH)/imx8/kernel.bin
+all: build/$(ARCH)/kernel.bin
 
-build/$(ARCH)/imx8/kernel: */src/*.rs */src/*.s Cargo.toml
-	mkdir -p $(@D)
-	echo $$RUSTFLAGS
+build/$(ARCH)/kernel: kernel/
+	mkdir -p build/$(ARCH)
 	cargo xrustc $(CARGO_OPTS) --manifest-path kernel/Cargo.toml \
-		-- --emit=link=$@ --emit=asm=$@.s --cfg device=\"imx8\"
+		-- --emit=link=$@ --emit=asm=$@.s \
+		-Z pre-link-arg=--script=kernel/src/arch/$(ARCH)/link.ld
 
-build/$(ARCH)/imx8/kernel.bin: build/$(ARCH)/imx8/kernel link.ld
-	$(LD) --oformat binary -m aarch64elf --script link.ld --output $@ $<
-
-build/$(ARCH)/qemu-virt/kernel: */src/*.rs */src/*.s Cargo.toml
-	mkdir -p $(@D)
-	echo $$RUSTFLAGS
-	cargo xrustc $(CARGO_OPTS) --manifest-path kernel/Cargo.toml \
-		-- --emit=link=$@ --emit=asm=$@.s --cfg device=\"qemu-virt\"
-
-build/$(ARCH)/qemu-virt/kernel.bin: build/$(ARCH))/qemu-virt/kernel link.ld
-	$(LD) --oformat binary -m aarch64elf --script link.ld --output $@ $<
+build/$(ARCH)/kernel.bin: build/$(ARCH)/kernel 
+	$(LD) --oformat binary -m aarch64elf --script kernel/src/arch/$(ARCH)/link.ld --output $@ $<
 
 doc:
 	cargo doc --manifest-path kernel/Cargo.toml --target=aarch64-unknown-linux-gnu
