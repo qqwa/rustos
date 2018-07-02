@@ -1,18 +1,18 @@
 #[repr(C)]
 #[derive(Default, Debug, Copy, Clone)]
 pub struct Frame {
-    simd: SIMDRegs,
-    regs: Regs,
-    sp: u64,
-    id: u64,
+    pub simd: SIMDRegs,
+    pub id: u64,
+    pub sp: u64,
+    pub regs: Regs,
     res: u64,
-    x0: u64,
-    lr: u64,
+    pub x0: u64,
+    pub lr: u64,
 }
 
 #[repr(C)]
 #[derive(Default, Debug, Copy, Clone)]
-struct Regs {
+pub struct Regs {
     x30: u64,
     x29: u64,
     x28: u64,
@@ -48,7 +48,7 @@ struct Regs {
 
 #[repr(C)]
 #[derive(Default, Debug, Copy, Clone)]
-struct SIMDRegs {
+pub struct SIMDRegs {
     v31: u128,
     v30: u128,
     v29: u128,
@@ -84,11 +84,14 @@ struct SIMDRegs {
 }
 
 impl Frame {
-    pub fn setSIMDRegs(&mut self, val: u128) {
-        self.simd.v0 = val;
-        self.simd.v1 = val + 1;
-        self.simd.v2 = val + 2;
-        self.simd.v3 = val + 3;
+
+    pub fn new(id: u64, lr: u64, sp: u64) -> Frame {
+        Frame {
+            id,
+            lr,
+            sp,
+            ..Default::default()
+        }
     }
 }
 

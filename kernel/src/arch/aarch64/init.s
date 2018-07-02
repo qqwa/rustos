@@ -67,14 +67,14 @@ init:
             |   .   |       .
             |   .   |       .
             | v0    |       .
+            | SP    |       .
+            | ID    |       .
             | x29   |       .
             |   .   |       .
             |   .   |       .
             |   .   |       .
             | x2    |       .
-            | x1    |       .
-            | SP    |       .
-            | ID    |   context
+            | x1    |   context
             |   -   |   return adress (ignore)
             | x0    |   vector
             | lr    |   vector
@@ -98,6 +98,10 @@ context_save:
     stp     x26, x25,   [SP, #-16]!
     stp     x28, x27,   [SP, #-16]!
     stp     x30, x29,   [SP, #-16]!
+
+    mrs     x1, sp_el0
+    mrs     x2, tpidr_el1
+    stp     x2,  x1,    [SP, #-16]!
 
     stp     v1,   v0,   [SP, #-32]!
     stp     v3,   v2,   [SP, #-32]!
@@ -136,6 +140,11 @@ context_restore:
     ldp     v5,  v4,    [SP], #32
     ldp     v3,  v2,    [SP], #32
     ldp     v1,  v0,    [SP], #32
+
+    ldp     x2,  x1,    [SP], #16
+    msr     sp_el0, x1
+    msr     tpidr_el1, x2
+
     ldp     x30, x29,   [SP], #16
     ldp     x28, x27,   [SP], #16
     ldp     x26, x25,   [SP], #16
@@ -151,7 +160,7 @@ context_restore:
     ldp     x6,  x5,    [SP], #16
     ldp     x4,  x3,    [SP], #16
     ldp     x2,  x1,    [SP], #16
-    ret 
+    ret
 
 .macro EXCEPTION, source, kind
     .balign 0x80
