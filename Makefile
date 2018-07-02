@@ -2,7 +2,7 @@ ARCH=aarch64
 TARGET=$(ARCH)-unknown-none
 LD=ld.lld
 
-CARGO_OPTS=--target=$(TARGET) --release --features "verbose-exception-handler"
+CARGO_OPTS=--target=$(TARGET) --release #--features "verbose-exception-handler"
 RUST_TARGET_PATH=$(PWD)/targets
 RUSTFLAGS=-C soft-float
 RUSTDOC=./rustdoc.sh
@@ -19,7 +19,7 @@ build/$(ARCH)/kernel: kernel/
 		-- --emit=link=$@ --emit=asm=$@.s \
 		-Z pre-link-arg=--script=kernel/src/arch/$(ARCH)/link.ld
 
-build/$(ARCH)/kernel.bin: build/$(ARCH)/kernel 
+build/$(ARCH)/kernel.bin: build/$(ARCH)/kernel
 	$(LD) --oformat binary -m aarch64elf --script kernel/src/arch/$(ARCH)/link.ld --output $@ $<
 
 doc:

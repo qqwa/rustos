@@ -28,6 +28,25 @@ bitfield!{
     aff3, _: 39, 32;
 }
 
+bitfield!{
+    pub struct SPSR(u32);
+    impl Debug;
+    n, _: 31;
+    z, _: 30;
+    c, _: 29;
+    v, _: 28;
+    uao, _: 23;
+    pan, _: 22;
+    ss, _: 21;
+    il, _: 20;
+    d, _: 9;
+    a, _: 8;
+    i, _: 7;
+    f, _: 6;
+    m, _: 4;
+    mode, _: 3, 0;
+}
+
 mod tests {
     #[test]
     fn it_works() {

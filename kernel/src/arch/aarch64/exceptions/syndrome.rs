@@ -30,6 +30,24 @@ impl From<u32> for FaultKind {
 }
 
 bitfield! {
+    structDataAbortISS(u32);
+    impl Debug;
+    isv, _: 24;
+    sas, _: 23, 22;
+    sse, _: 21;
+    srt, _: 20, 16;
+    sf, _: 15;
+    ar, _: 14;
+    set, _: 12, 11;
+    fnv, _: 10;
+    ea, _: 9;
+    cm, _: 8;
+    s1ptw, _: 7;
+    wnr, _: 6;
+    dfsc, _: 5, 0;
+}
+
+bitfield! {
     struct InstructionAbortISS(u32);
     impl Debug;
     set, _: 12, 11;

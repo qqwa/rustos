@@ -261,3 +261,10 @@ rreg!(
 wreg!(
     set_cpacr_el1, u32, "msr", "CPACR_EL1"
 );
+
+rreg!(
+    get_tpidr_el1, u64, "mrs", "TPIDR_EL1"
+);
+wreg!(
+    set_tpidr_el1, u64, "msr", "TPIDR_EL1"
+);
