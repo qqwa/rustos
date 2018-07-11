@@ -47,6 +47,37 @@ bitfield!{
     mode, _: 3, 0;
 }
 
+bitfield!{
+    pub struct SCTLR(u32);
+    impl Debug;
+    enai, _: 31;
+    enib, _: 30;
+    lsmaoe, _: 29;
+    ntlsmd, _: 28;
+    enda, _: 27;
+    uci, _: 26;
+    ee, _: 25;
+    e0e, _: 24;
+    span, _: 23;
+    iesb, _: 21;
+    wxn, _: 19;
+    ntwe, _: 18;
+    ntwi, _: 16;
+    uct, _: 15;
+    dze, _: 14;
+    endb, _: 13;
+    i, _: 12;
+    uma, _: 9;
+    sed, _: 8;
+    itd, _: 7;
+    cp15ben, _: 5;
+    sa0, _: 4;
+    sa, _: 3;
+    c, _: 2;
+    a, _: 1;
+    m, _: 0;
+}
+
 mod tests {
     #[test]
     fn it_works() {

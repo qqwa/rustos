@@ -268,3 +268,21 @@ rreg!(
 wreg!(
     set_tpidr_el1, u64, "msr", "TPIDR_EL1"
 );
+
+rreg!(
+    get_sctlr_el1, u32, "mrs", "SCTLR_EL1"
+);
+wreg!(
+    set_sctlr_el1, u32, "msr", "SCTLR_EL1"
+);
+
+rreg!(
+    get_ttbr0_el1, u64, "mrs", "TTBR0_EL1"
+);
+wreg!(
+    wet_ttbr0_el1, u64, "msr", "TTBR0_EL1"
+);
+
+rreg!(
+    get_far_el1, u64, "mrs", "FAR_EL1"
+);
