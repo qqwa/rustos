@@ -30,7 +30,7 @@ impl From<u32> for FaultKind {
 }
 
 bitfield! {
-    structDataAbortISS(u32);
+    struct DataAbortISS(u32);
     impl Debug;
     isv, _: 24;
     sas, _: 23, 22;
