@@ -28,10 +28,21 @@ pub struct Info {
     kind: Kind,
 }
 
+static mut RECURSIVE_EXCEPTION: u32 = 0;
+
 
 #[linkage = "weak"]
 #[no_mangle]
 pub extern fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) {
+
+    unsafe {
+        RECURSIVE_EXCEPTION += 1;
+        if 10 < RECURSIVE_EXCEPTION {
+            println!("To many unknown exceptions entering endless loop..");
+            loop {}
+        }
+    }
+
     let syndrome = Syndrome::from(esr);
 
     if cfg!(feature="verbose-exception-handler") {
@@ -43,15 +54,8 @@ pub extern fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) 
 
     match &syndrome {
         Syndrome::Unknown => {
-            println!("Unknown:");
-
-            // println!("{:?}", info);
-            // println!("{:?}", syndrome);
-            // println!("{:#x?}", frame);
-            // let spsr = unsafe { ::armv8_a::SPSR(::armv8_a::raw::get_spsr_el1()) };
-            // println!("{:?}", spsr);
-
-            loop { }
+            println!("{:?}", info);
+            println!("{:?}", syndrome);
         }
         Syndrome::BRK(ref x) => {
             println!("TODO: Starting shell");
@@ -60,9 +64,9 @@ pub extern fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) 
                 unsafe { asm!("wfe"); }
             }
         },
-       Syndrome::SVC(ref x) => {
-           systemcall(x, frame);
-       }
+        Syndrome::SVC(ref x) => {
+            systemcall(x, frame);
+        }
         x => {
             // Exceptions which don't have a own match branch, will be handled
             // by this default handler. Logging the exception and returning
@@ -70,6 +74,10 @@ pub extern fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) 
             println!("Default exception handler found:");
             println!("{:02x?}", x);
         }
+    }
+
+    unsafe {
+        RECURSIVE_EXCEPTION -= 1;
     }
 }
 

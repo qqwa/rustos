@@ -83,7 +83,6 @@ init:
 */
 
 context_save:
-    /*
     stp     x2,  x1,    [SP, #-16]!
     stp     x4,  x3,    [SP, #-16]!
     stp     x6,  x5,    [SP, #-16]!
@@ -120,13 +119,11 @@ context_save:
     stp     v27,  v26,  [SP, #-32]!
     stp     v29,  v28,  [SP, #-32]!
     stp     v31,  v30,  [SP, #-32]!
-    */
     mrs     x1, ESR_EL1
     mov     x2, SP
     bl      exception_handler
 
 context_restore:
-    /*
     ldp     v31, v30,   [SP], #32
     ldp     v29, v28,   [SP], #32
     ldp     v27, v26,   [SP], #32
@@ -163,7 +160,6 @@ context_restore:
     ldp     x6,  x5,    [SP], #16
     ldp     x4,  x3,    [SP], #16
     ldp     x2,  x1,    [SP], #16
-    */
     ret
 
 .macro EXCEPTION, source, kind

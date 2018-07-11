@@ -62,7 +62,6 @@ extern {
 
 #[no_mangle]
 pub extern "C" fn rust_entry() -> ! {
-	println!("help");
     arch::init();
 	init_heap();
     unsafe {
