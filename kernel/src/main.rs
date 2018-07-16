@@ -13,40 +13,15 @@
 #![feature(alloc, allocator_api, global_allocator)]
 #![feature(ptr_internals)]
 
-#[macro_use]
-extern crate alloc;
-
 extern crate armv8_a;
 #[macro_use]
 extern crate bitfield;
-extern crate linked_list_allocator;
 
 #[macro_use]
 mod arch;
 mod uart;
 mod process;
 mod scheduler;
-
-use linked_list_allocator::LockedHeap;
-
-#[global_allocator]
-static ALLOCATOR: LockedHeap = LockedHeap::empty();
-
-pub fn init_heap() {
-    unsafe {
-		// let heap_start = __stack_top + 4096;
-		let heap_start = __kernel_start;
-		let heap_size = 4096;
-		println!("HEAP: {} - {}", heap_start, heap_start + heap_size);
-        ALLOCATOR.lock().init(heap_start, heap_size);
-    }
-}
-
-#[lang = "oom"]
-#[no_mangle]
-pub extern fn rust_oom() -> ! {
-    panic!("kernel memory allocation failed");
-}
 
 #[panic_implementation]
 #[no_mangle]
@@ -63,7 +38,6 @@ extern {
 #[no_mangle]
 pub extern "C" fn rust_entry() -> ! {
     arch::init();
-	init_heap();
     unsafe {
 
         // let scheduler = &process::SCHEDULER;
