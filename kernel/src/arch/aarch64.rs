@@ -4,8 +4,8 @@ pub mod print;
 pub mod macros;
 pub mod exceptions;
 
-global_asm!(include_str!("header.s"));
-global_asm!(include_str!("init.s"));
+global_asm!(include_str!("aarch64/header.s"));
+global_asm!(include_str!("aarch64/init.s"));
 
 pub fn init() {
     // dont trap SVE and SIMD instructions/reg accesses

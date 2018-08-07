@@ -1,6 +1,6 @@
 #[derive(Default, Debug, Copy, Clone)]
 pub struct Process {
-    pub registers: ::arch::exceptions::frame::Frame,
+    pub registers: crate::arch::exceptions::frame::Frame,
     pub active: bool,
 }
 

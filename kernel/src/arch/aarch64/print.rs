@@ -1,11 +1,11 @@
 pub struct Writer {
-    uart: ::uart::Uart,
+    uart: crate::uart::Uart,
 }
 
 impl Writer {
     pub fn new() -> Writer {
         Writer {
-            uart: ::uart::Uart::new(super::config::UART),
+            uart: crate::uart::Uart::new(super::config::UART),
         }
     }
 }

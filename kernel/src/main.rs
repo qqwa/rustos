@@ -12,8 +12,8 @@
 #![feature(optin_builtin_traits)]
 #![feature(alloc, allocator_api, global_allocator)]
 #![feature(ptr_internals)]
+#![feature(rust_2018_preview)]
 
-extern crate armv8_a;
 #[macro_use]
 extern crate bitfield;
 
@@ -25,7 +25,7 @@ mod scheduler;
 
 #[panic_implementation]
 #[no_mangle]
-fn panic(info: &core::panic::PanicInfo) -> ! {
+pub fn panic(info: &core::panic::PanicInfo) -> ! {
     println!("Error: {}", info);
     loop {}
 }

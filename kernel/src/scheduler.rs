@@ -6,7 +6,7 @@ pub struct Scheduler {
     next: u64,
     stack_pointer_base: usize,
     stack_pointer_size: usize,
-	processes: [Option<::process::Process>; 3],
+	processes: [Option<crate::process::Process>; 3],
 }
 
 impl Scheduler {
