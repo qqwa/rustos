@@ -18,10 +18,13 @@
 extern crate bitfield;
 
 #[macro_use]
+pub mod macros;
 mod arch;
 mod uart;
 mod process;
 mod scheduler;
+
+use crate::arch::ArchImpl;
 
 #[panic_implementation]
 #[no_mangle]
@@ -37,7 +40,8 @@ extern {
 
 #[no_mangle]
 pub extern "C" fn rust_entry() -> ! {
-    arch::init();
+    let mut arch = arch::Arch::new();
+    arch.init();
     unsafe {
 
         // let scheduler = &process::SCHEDULER;
