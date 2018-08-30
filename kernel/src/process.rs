@@ -4,6 +4,7 @@ pub struct Process {
     pub active: bool,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Copy, Clone)]
 pub enum ProcessState {
     Running,

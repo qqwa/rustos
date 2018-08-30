@@ -84,7 +84,6 @@ pub struct SIMDRegister {
 }
 
 impl Frame {
-
     pub fn new(id: u64, lr: u64, sp: u64) -> Frame {
         Frame {
             id,

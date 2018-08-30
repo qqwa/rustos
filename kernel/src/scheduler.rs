@@ -1,5 +1,3 @@
-// use core::option::Option::*;
-
 #[derive(Debug, Clone)]
 pub struct Scheduler {
     current: u64,
@@ -9,6 +7,7 @@ pub struct Scheduler {
 	processes: [Option<crate::process::Process>; 3],
 }
 
+#[allow(dead_code)]
 impl Scheduler {
     pub fn new(base: usize, size: usize) -> Scheduler {
         Scheduler {
@@ -20,30 +19,12 @@ impl Scheduler {
         }
     }
 
-    pub fn add(&mut self, func: fn()) {
-        unsafe {
 
-			// let length = self.processes.len();
-            // self.processes.push(
-            //     ::process::Process {
-            //         registers: ::arch::exceptions::frame::Frame::new(
-			// 			length as u64,
-			// 			func as *const fn() as usize as u64,
-			// 			(self.stack_pointer_base + self.stack_pointer_size * (length)) as u64),
-            //         active: false,
-            //     }
-            // );
+    pub fn add(&mut self, _func: fn()) {
 
-        }
     }
 
-    pub fn start(&mut self) {
-        println!("Scheduler started");
-        unsafe {
-            let proc1 = self.processes[0].unwrap();
-            println!("{}", proc1.registers.sp % 16);
-            // println!("{:#x?}", PROCESSES);
-        }
+    pub fn start(&mut self) -> ! {
         loop {}
     }
 }

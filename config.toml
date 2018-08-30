@@ -1,5 +1,5 @@
 [config]
-device = "imx8"
+device = "qemu-virt"
 
 [feature]
 verbose-exception-handler = false

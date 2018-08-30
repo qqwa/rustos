@@ -1,5 +1,6 @@
 pub mod config;
 pub mod print;
+#[allow(dead_code)]
 pub mod exceptions;
 
 global_asm!(include_str!("aarch64/header.s"));
@@ -20,18 +21,6 @@ impl crate::arch::ArchImpl for Arch {
 
     fn name() -> &'static str {
         "aarch64"
-    }
-
-    fn exceptions_init(&mut self) {
-        // nothing to do here, already handled by init.s
-    }
-
-    fn exceptions_start(&mut self) {
-        unimplemented!()
-    }
-
-    fn exceptions_pause(&mut self) {
-        unimplemented!()
     }
 }
 

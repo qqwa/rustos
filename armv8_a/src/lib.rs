@@ -77,10 +77,3 @@ bitfield!{
     a, _: 1;
     m, _: 0;
 }
-
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}

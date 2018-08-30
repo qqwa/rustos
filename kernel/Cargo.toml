@@ -13,6 +13,8 @@ sysroot_path = "sysroot"
 [dependencies]
 armv8_a = { path = "../armv8_a" }
 bitfield = "0.13.0"
+lazy_static = { version = "1.1.0", features = ["spin_no_std"]}
+spin = "0.4.6"
 
 [build-dependencies]
 toml = "0.4.6"

@@ -3,7 +3,6 @@ ENTRY(_head)
 SECTIONS
 {
     . = 0x40080000;
-    /* . = ALIGN(4096); */
     __kernel_start = .;
     .text : { *(.text*) . = ALIGN(8); }
     .rodata : { *(.rodata*) . = ALIGN(8); }

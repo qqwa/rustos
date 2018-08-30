@@ -30,7 +30,8 @@ pub struct Info {
 
 static mut RECURSIVE_EXCEPTION: u32 = 0;
 
-
+// linkage weak is needed because the arch module is private and the function is
+// not called inside of this module
 #[linkage = "weak"]
 #[no_mangle]
 pub extern fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) {
@@ -38,7 +39,7 @@ pub extern fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) 
     unsafe {
         RECURSIVE_EXCEPTION += 1;
         if 10 < RECURSIVE_EXCEPTION {
-            println!("To many unknown exceptions entering endless loop..");
+            println!("To many recursive exceptions: entering endless loop");
             loop {}
         }
     }
@@ -54,26 +55,19 @@ pub extern fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) 
 
     match &syndrome {
         Syndrome::Unknown => {
-            println!("{:?}", info);
-            println!("{:?}", syndrome);
-        }
-        Syndrome::BRK(ref x) => {
-            println!("TODO: Starting shell");
-            println!("Entering endless loop");
-            loop {
-                unsafe { asm!("wfe"); }
-            }
+            println!("{:?}:", syndrome);
+            println!("  {:?}", info);
         },
         Syndrome::SVC(ref x) => {
             systemcall(x, frame);
-        }
+        },
         x => {
             // Exceptions which don't have a own match branch, will be handled
             // by this default handler. Logging the exception and returning
             // from it.
-            println!("Default exception handler found:");
+            println!("Default exception handler encountered:");
             println!("{:02x?}", x);
-        }
+        },
     }
 
     unsafe {
@@ -83,16 +77,14 @@ pub extern fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) 
 
 fn systemcall(id: &u16, frame: &mut frame::Frame) {
     match id {
-        0 => {
-            println!("Called Yield systemcall");
+        x @ 0...10 => {
+            frame.register.x8 = *x as u64;
         },
-        2 => {
-            println!("Set tpidr_el1 to 55");
-            // unsafe{ ::armv8_a::raw::set_tpidr_el1(55); }
-            frame.id = 55;
+        42 => {
+            println!("Printing x8 of frame: {}", frame.register.x8);
         },
         _ => {
-            println!("Blabla requested unexpected syscall({})", id);
+            println!("requested unexpected syscall({})", id);
         },
     }
 }

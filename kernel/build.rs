@@ -4,8 +4,9 @@ use std::io::prelude::*;
 
 fn main() {
 
-    let mut conf_file = File::open("../conf.toml").expect("could not find config file");
-    
+    println!("cargo:rerun-if-changed={}", "../config.toml");
+    let mut conf_file = File::open("../config.toml").expect("could not find config file");
+
     let mut config = String::new();
     conf_file.read_to_string(&mut config)
         .expect("something went wrong reading the file");

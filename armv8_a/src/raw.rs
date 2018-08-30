@@ -29,15 +29,6 @@ macro_rules! wreg {
     }
 }
 
-macro_rules! instr {
-    ($function:ident, $instruction:expr) => {
-        #[inline(always)]
-        pub unsafe fn $function() {
-            asm!(concat!($instruction)::::"volatile");
-        }
-    }
-}
-
 // special-purpose registers
 
 rreg!(

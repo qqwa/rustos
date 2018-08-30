@@ -36,8 +36,10 @@ el2:
     msr SP_EL1, x8
     // Set Execution state of EL1 to aarch64
     mov x0, xzr
-    orr x0, x0, #(1 << 41) // dont trap instructions related to pointer authenication
-    orr x0, x0, #(1 << 40) // dont trap access to registers holding key values for pa
+    // dont trap instructions related to pointer authenication
+    orr x0, x0, #(1 << 41)
+    // dont trap access to registers holding key values for pa
+    orr x0, x0, #(1 << 40)
 
     orr x0, x0, #(1 << 31) // set RW bit
     msr HCR_EL2, x0

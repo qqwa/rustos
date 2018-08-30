@@ -1,23 +1,26 @@
-pub struct Writer {
-    uart: crate::uart::Uart,
+lazy_static! {
+    static ref STDOUT: spin::Mutex<crate::uart::Uart> = spin::Mutex::new(crate::uart::Uart::new(super::config::UART));
 }
 
-impl Writer {
-    pub fn new() -> Writer {
+pub struct Writer<'a> {
+    uart: spin::MutexGuard<'a, crate::uart::Uart>,
+}
+
+impl<'a> Writer<'a> {
+    pub fn new() -> Writer<'a> {
         Writer {
-            uart: crate::uart::Uart::new(super::config::UART),
+            uart: STDOUT.lock(),
         }
     }
 }
 
 use core::fmt;
-impl fmt::Write for Writer {
+impl<'a> fmt::Write for Writer<'a> {
     fn write_str(&mut self, s: &str) -> Result<(), fmt::Error> {
         for c in s.chars() {
             unsafe {
-                // *super::config::UART = c as u32;
                 self.uart.print_char(c);
-                if(c == '\n') {
+                if c == '\n' {
                     self.uart.print_char('\r');
                 }
             }

@@ -1,4 +1,3 @@
-// D10.2.39
 #[derive(Debug, PartialEq, Copy, Clone)]
 pub enum FaultKind {
     AddressSize,
@@ -107,7 +106,7 @@ impl From<u32> for Syndrome {
 
         let esr = SyndromeBits(esr);
 
-        match esr.ec() {    // Page. 1877
+        match esr.ec() {
             0b000000 => Unknown,
 
             0b000111 => SVEoSIMD,
@@ -118,34 +117,39 @@ impl From<u32> for Syndrome {
             0b010101 => SVC(SystemCallISS(esr.iss()).imm16() as u16),
 
             0b010010 |
-            0b010110 => HVC(0), //TODO: HVC instruction execution in AArch64 state
+            0b010110 => HVC(0),
 
             0b010011 |
-            0b010111 => SMC(0), //TODO: SMC instruction execution in AArch64 state
+            0b010111 => SMC(0),
 
             0b100000 |
-            0b100001 => InstructionAbort{ kind: FaultKind::from(esr.iss()), level: InstructionAbortISS(esr.iss()).lvl() as u8 },
+            0b100001 => {
+                InstructionAbort{
+                    kind: FaultKind::from(esr.iss()),
+                    level: InstructionAbortISS(esr.iss()).lvl() as u8
+                }
+            },
 
-            0b100010 => PCAlignmentFault, //TODO: PC alignment fault exception
+            0b100010 => PCAlignmentFault,
 
             0b100100 |
             0b100101 => DataAbort{ kind: FaultKind::from(esr.iss()), level: InstructionAbortISS(esr.iss()).lvl() as u8 },
 
-            0b100110 => SPAlignmentFault, //TODO: SP alignment fault exception
+            0b100110 => SPAlignmentFault,
 
-            0b101111 => SError, //TODO: SError interrupt
+            0b101111 => SError,
 
             0b110000 |
-            0b110001 => Breakpoint, //TODO: Breakpoint exception same Exception level
+            0b110001 => Breakpoint,
 
             0b110010 |
-            0b110100 => SoftwareStep, //TODO: Software Step exception same Exception level
+            0b110011 => SoftwareStep,
 
             0b110100 |
-            0b110101 => Watchpoint, //TODO: Watchpoint exception same Exception level
+            0b110101 => Watchpoint,
 
             0b111000 |
-            0b111100 => BRK(esr.iss()), //TODO: BRK instruction execution in AArch64 state
+            0b111100 => BRK(esr.iss()),
 
             _ => Other(esr.0),
         }

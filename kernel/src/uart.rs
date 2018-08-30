@@ -2,6 +2,26 @@ pub struct Uart {
     base: *mut u8,
 }
 
+unsafe impl Send for Uart {}
+
+impl Uart {
+    pub fn new(base: *mut u8) -> Uart {
+        Uart { base }
+    }
+
+    pub unsafe fn print_char(&self, c: char) {
+        let uts = self.base.offset(Offset::UTS as isize) as *mut u32;
+        // only works on imx8, because qemu has a different uart device
+        if cfg!(device="imx8") {
+            // check if tx buffer is full
+            while ::core::ptr::read_volatile(uts) & (1 << 4) == 1 {
+            }
+        }
+        *(self.base.offset(Offset::UTXD as isize)) = c as u8;
+    }
+}
+
+#[allow(dead_code)]
 #[repr(isize)]
 enum Offset {
     /// UART Receiver Register
@@ -38,16 +58,4 @@ enum Offset {
     UTS = 0xb4,
     /// UART RS-485 Mode Control Register
     UMCR = 0xb8,
-}
-
-impl Uart {
-    pub fn new(base: *mut u8) -> Uart {
-        Uart { base }
-    }
-
-    pub unsafe fn print_char(&self, c: char) {
-        // poll UTS until transmitter is emtpy
-        while (::core::ptr::read_volatile(self.base.offset(Offset::UTS as isize) as *mut u32) & (1 << 6)) == 0 {}
-        *(self.base.offset(Offset::UTXD as isize) as *mut u32) = c as u32;
-    }
 }
