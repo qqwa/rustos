@@ -33,6 +33,7 @@ ln -s /usr/bin/lld-6.0 /usr/bin/ld.lld
 ### Arch Linux
 
 ```
+pacman -S base-devel
 pacman -S rustup
 pacman -S lld
 pacman -S qemu-arch-extra
