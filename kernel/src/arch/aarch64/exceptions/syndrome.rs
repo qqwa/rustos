@@ -13,18 +13,15 @@ impl From<u32> for FaultKind {
     fn from(iss: u32) -> FaultKind {
         use self::FaultKind::*;
         let iss = InstructionAbortISS(iss);
-		match iss.kind() {
-			0b0000 => AddressSize,
-			0b0001 => Translation,
+        match iss.kind() {
+            0b0000 => AddressSize,
+            0b0001 => Translation,
             0b0010 => AccessFlag,
             0b0011 => Permission,
-            0b0100 |
-            0b0110 |
-            0b0101 |
-            0b0111 => Alignment,
+            0b0100 | 0b0110 | 0b0101 | 0b0111 => Alignment,
             0b1100 => TLBConflict,
             _ => Other(iss.ifsc() as u8),
-		}
+        }
     }
 }
 
@@ -73,15 +70,9 @@ pub enum Syndrome {
     SVC(u16),
     HVC(u16),
     SMC(u16),
-    InstructionAbort {
-        kind: FaultKind,
-        level: u8,
-    },
+    InstructionAbort { kind: FaultKind, level: u8 },
     PCAlignmentFault,
-    DataAbort {
-        kind: FaultKind,
-        level: u8,
-    },
+    DataAbort { kind: FaultKind, level: u8 },
     SPAlignmentFault,
     SError,
     Breakpoint,
@@ -90,7 +81,6 @@ pub enum Syndrome {
     BRK(u32),
     Other(u32),
 }
-
 
 bitfield! {
     struct SyndromeBits(u32);
@@ -113,46 +103,37 @@ impl From<u32> for Syndrome {
 
             0b001110 => IllegalExecutionState,
 
-            0b010001 |
-            0b010101 => SVC(SystemCallISS(esr.iss()).imm16() as u16),
+            0b010001 | 0b010101 => SVC(SystemCallISS(esr.iss()).imm16() as u16),
 
-            0b010010 |
-            0b010110 => HVC(0),
+            0b010010 | 0b010110 => HVC(0),
 
-            0b010011 |
-            0b010111 => SMC(0),
+            0b010011 | 0b010111 => SMC(0),
 
-            0b100000 |
-            0b100001 => {
-                InstructionAbort{
-                    kind: FaultKind::from(esr.iss()),
-                    level: InstructionAbortISS(esr.iss()).lvl() as u8
-                }
+            0b100000 | 0b100001 => InstructionAbort {
+                kind: FaultKind::from(esr.iss()),
+                level: InstructionAbortISS(esr.iss()).lvl() as u8,
             },
 
             0b100010 => PCAlignmentFault,
 
-            0b100100 |
-            0b100101 => DataAbort{ kind: FaultKind::from(esr.iss()), level: InstructionAbortISS(esr.iss()).lvl() as u8 },
+            0b100100 | 0b100101 => DataAbort {
+                kind: FaultKind::from(esr.iss()),
+                level: InstructionAbortISS(esr.iss()).lvl() as u8,
+            },
 
             0b100110 => SPAlignmentFault,
 
             0b101111 => SError,
 
-            0b110000 |
-            0b110001 => Breakpoint,
+            0b110000 | 0b110001 => Breakpoint,
 
-            0b110010 |
-            0b110011 => SoftwareStep,
+            0b110010 | 0b110011 => SoftwareStep,
 
-            0b110100 |
-            0b110101 => Watchpoint,
+            0b110100 | 0b110101 => Watchpoint,
 
-            0b111000 |
-            0b111100 => BRK(esr.iss()),
+            0b111000 | 0b111100 => BRK(esr.iss()),
 
             _ => Other(esr.0),
         }
     }
 }
-

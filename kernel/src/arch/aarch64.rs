@@ -1,7 +1,7 @@
 pub mod config;
-pub mod print;
 #[allow(dead_code)]
 pub mod exceptions;
+pub mod print;
 
 global_asm!(include_str!("aarch64/header.s"));
 global_asm!(include_str!("aarch64/init.s"));

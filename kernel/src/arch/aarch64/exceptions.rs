@@ -6,10 +6,10 @@ use self::syndrome::Syndrome;
 #[repr(u16)]
 #[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub enum Kind {
-   Synchronous = 0,
-   IRQ = 1,
-   FIQ = 2,
-   SError = 3,
+    Synchronous = 0,
+    IRQ = 1,
+    FIQ = 2,
+    SError = 3,
 }
 
 #[repr(u16)]
@@ -34,8 +34,7 @@ static mut RECURSIVE_EXCEPTION: u32 = 0;
 // not called inside of this module
 #[linkage = "weak"]
 #[no_mangle]
-pub extern fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) {
-
+pub extern "C" fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) {
     unsafe {
         RECURSIVE_EXCEPTION += 1;
         if 10 < RECURSIVE_EXCEPTION {
@@ -46,7 +45,7 @@ pub extern fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) 
 
     let syndrome = Syndrome::from(esr);
 
-    if cfg!(feature="verbose-exception-handler") {
+    if cfg!(feature = "verbose-exception-handler") {
         println!("{:?}", info);
         println!("{:?}", syndrome);
         println!("{:#x?}", frame);
@@ -57,17 +56,17 @@ pub extern fn exception_handler(info: Info, esr: u32, frame: &mut frame::Frame) 
         Syndrome::Unknown => {
             println!("{:?}:", syndrome);
             println!("  {:?}", info);
-        },
+        }
         Syndrome::SVC(ref x) => {
             systemcall(x, frame);
-        },
+        }
         x => {
             // Exceptions which don't have a own match branch, will be handled
             // by this default handler. Logging the exception and returning
             // from it.
             println!("Default exception handler encountered:");
             println!("{:02x?}", x);
-        },
+        }
     }
 
     unsafe {
@@ -79,13 +78,12 @@ fn systemcall(id: &u16, frame: &mut frame::Frame) {
     match id {
         x @ 0...10 => {
             frame.register.x8 = *x as u64;
-        },
+        }
         42 => {
             println!("Printing x8 of frame: {}", frame.register.x8);
-        },
+        }
         _ => {
             println!("requested unexpected syscall({})", id);
-        },
+        }
     }
 }
-

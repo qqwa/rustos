@@ -34,17 +34,16 @@ pub struct Register {
     crate x12: u64,
     crate x11: u64,
     crate x10: u64,
-    crate x9:  u64,
-    crate x8:  u64,
-    crate x7:  u64,
-    crate x6:  u64,
-    crate x5:  u64,
-    crate x4:  u64,
-    crate x3:  u64,
-    crate x2:  u64,
-    crate x1:  u64,
+    crate x9: u64,
+    crate x8: u64,
+    crate x7: u64,
+    crate x6: u64,
+    crate x5: u64,
+    crate x4: u64,
+    crate x3: u64,
+    crate x2: u64,
+    crate x1: u64,
 }
-
 
 #[repr(C)]
 #[derive(Default, Debug, Copy, Clone)]
@@ -71,16 +70,16 @@ pub struct SIMDRegister {
     crate v12: u128,
     crate v11: u128,
     crate v10: u128,
-    crate v9:  u128,
-    crate v8:  u128,
-    crate v7:  u128,
-    crate v6:  u128,
-    crate v5:  u128,
-    crate v4:  u128,
-    crate v3:  u128,
-    crate v2:  u128,
-    crate v1:  u128,
-    crate v0:  u128,
+    crate v9: u128,
+    crate v8: u128,
+    crate v7: u128,
+    crate v6: u128,
+    crate v5: u128,
+    crate v4: u128,
+    crate v3: u128,
+    crate v2: u128,
+    crate v1: u128,
+    crate v0: u128,
 }
 
 impl Frame {
@@ -93,4 +92,3 @@ impl Frame {
         }
     }
 }
-

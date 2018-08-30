@@ -1,5 +1,6 @@
 lazy_static! {
-    static ref STDOUT: spin::Mutex<crate::uart::Uart> = spin::Mutex::new(crate::uart::Uart::new(super::config::UART));
+    static ref STDOUT: spin::Mutex<crate::uart::Uart> =
+        spin::Mutex::new(crate::uart::Uart::new(super::config::UART));
 }
 
 pub struct Writer<'a> {

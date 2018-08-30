@@ -12,10 +12,9 @@ impl Uart {
     pub unsafe fn print_char(&self, c: char) {
         let uts = self.base.offset(Offset::UTS as isize) as *mut u32;
         // only works on imx8, because qemu has a different uart device
-        if cfg!(device="imx8") {
+        if cfg!(device = "imx8") {
             // check if tx buffer is full
-            while ::core::ptr::read_volatile(uts) & (1 << 4) == 1 {
-            }
+            while ::core::ptr::read_volatile(uts) & (1 << 4) == 1 {}
         }
         *(self.base.offset(Offset::UTXD as isize)) = c as u8;
     }
