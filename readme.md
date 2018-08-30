@@ -1,9 +1,54 @@
-`make` will produce three files in build/aarch64 `kernel` is the linked
-executable in elf format, `kernel.bin` is the linked executable in binary
-format and `kernel.s` is the generated assembly code of the kernel, which
-can be used for debugging.
+# poc-kernel
 
-`kernel.bin` can be either runned with qemu, a bash script with the correct
-parameters is provided or on real hardware only the imx8m is supported.
-To run it on hardware you first need a functioning bootloader for linux
-and then replace the linux image, with `kernel.bin`
+Small kernel written as part of my bachelor thesis.
+
+## Compiling
+
+To compile the project just run `make`. The subsections Ubuntu and Arch Linux
+describe how to install all dependencies (qemu is only needed if you want to run
+the kernel with qemu).
+
+Compiling may fail on the first try requiring to execute `rustup component add
+rust-src`
+
+The kernel image will be located at build/aarch64/kernel.bin
+
+### Ubuntu
+
+Install rustup by following the instructions on https://rustup.rs/
+
+```
+apt install build-essential
+apt install lld-6.0
+apt install qemu-system-aarch64
+cargo install cargo-xbuild
+```
+
+Because the lld executable has the name lld-6.0 we either need to change the
+linker name in the make file or crate a symbolic link
+```
+ln -s /usr/bin/lld-6.0 /usr/bin/ld.lld
+```
+
+### Arch Linux
+
+```
+pacman -S rustup
+pacman -S lld
+pacman -S qemu-arch-extra
+cargo install cargo-xbuild
+```
+
+## Run
+
+Depending on the target hardware you may need to change the configuration in the
+file `config.toml`
+
+### qemu
+
+Execute the `qemu.sh` script.
+
+### hardware
+
+To run it on real hardware just replace the Linux image with kernel.bin on a
+working boot loader + Linux setup. It was only tested with the phyCORE-i.MX 8M.

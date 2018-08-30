@@ -1,5 +1,7 @@
 [config]
+# options: qemu-virt, imx8
 device = "qemu-virt"
 
+# all keys in feature can either be true or false
 [feature]
 verbose-exception-handler = false
