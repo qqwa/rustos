@@ -12,7 +12,7 @@ extern crate lazy_static;
 
 #[macro_use]
 pub mod macros;
-pub mod arch;
+mod arch;
 mod process;
 mod scheduler;
 mod uart;
