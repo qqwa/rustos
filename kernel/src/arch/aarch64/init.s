@@ -105,43 +105,43 @@ context_save:
     mrs     x2, tpidr_el1
     stp     x2,  x1,    [SP, #-16]!
 
-    stp     v1,   v0,   [SP, #-32]!
-    stp     v3,   v2,   [SP, #-32]!
-    stp     v5,   v4,   [SP, #-32]!
-    stp     v7,   v6,   [SP, #-32]!
-    stp     v9,   v8,   [SP, #-32]!
-    stp     v11,  v10,  [SP, #-32]!
-    stp     v13,  v12,  [SP, #-32]!
-    stp     v15,  v14,  [SP, #-32]!
-    stp     v17,  v16,  [SP, #-32]!
-    stp     v19,  v18,  [SP, #-32]!
-    stp     v21,  v20,  [SP, #-32]!
-    stp     v23,  v22,  [SP, #-32]!
-    stp     v25,  v24,  [SP, #-32]!
-    stp     v27,  v26,  [SP, #-32]!
-    stp     v29,  v28,  [SP, #-32]!
-    stp     v31,  v30,  [SP, #-32]!
+    // stp     v1,   v0,   [SP, #-32]!
+    // stp     v3,   v2,   [SP, #-32]!
+    // stp     v5,   v4,   [SP, #-32]!
+    // stp     v7,   v6,   [SP, #-32]!
+    // stp     v9,   v8,   [SP, #-32]!
+    // stp     v11,  v10,  [SP, #-32]!
+    // stp     v13,  v12,  [SP, #-32]!
+    // stp     v15,  v14,  [SP, #-32]!
+    // stp     v17,  v16,  [SP, #-32]!
+    // stp     v19,  v18,  [SP, #-32]!
+    // stp     v21,  v20,  [SP, #-32]!
+    // stp     v23,  v22,  [SP, #-32]!
+    // stp     v25,  v24,  [SP, #-32]!
+    // stp     v27,  v26,  [SP, #-32]!
+    // stp     v29,  v28,  [SP, #-32]!
+    // stp     v31,  v30,  [SP, #-32]!
     mrs     x1, ESR_EL1
     mov     x2, SP
     bl      exception_handler
 
 context_restore:
-    ldp     v31, v30,   [SP], #32
-    ldp     v29, v28,   [SP], #32
-    ldp     v27, v26,   [SP], #32
-    ldp     v25, v24,   [SP], #32
-    ldp     v23, v22,   [SP], #32
-    ldp     v21, v20,   [SP], #32
-    ldp     v19, v18,   [SP], #32
-    ldp     v17, v16,   [SP], #32
-    ldp     v15, v14,   [SP], #32
-    ldp     v13, v12,   [SP], #32
-    ldp     v11, v10,   [SP], #32
-    ldp     v9,  v8,    [SP], #32
-    ldp     v7,  v6,    [SP], #32
-    ldp     v5,  v4,    [SP], #32
-    ldp     v3,  v2,    [SP], #32
-    ldp     v1,  v0,    [SP], #32
+    // ldp     v31, v30,   [SP], #32
+    // ldp     v29, v28,   [SP], #32
+    // ldp     v27, v26,   [SP], #32
+    // ldp     v25, v24,   [SP], #32
+    // ldp     v23, v22,   [SP], #32
+    // ldp     v21, v20,   [SP], #32
+    // ldp     v19, v18,   [SP], #32
+    // ldp     v17, v16,   [SP], #32
+    // ldp     v15, v14,   [SP], #32
+    // ldp     v13, v12,   [SP], #32
+    // ldp     v11, v10,   [SP], #32
+    // ldp     v9,  v8,    [SP], #32
+    // ldp     v7,  v6,    [SP], #32
+    // ldp     v5,  v4,    [SP], #32
+    // ldp     v3,  v2,    [SP], #32
+    // ldp     v1,  v0,    [SP], #32
 
     ldp     x2,  x1,    [SP], #16
     msr     sp_el0, x1
