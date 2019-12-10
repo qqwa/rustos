@@ -76,7 +76,7 @@ pub extern "C" fn exception_handler(info: Info, esr: u32, frame: &mut frame::Fra
 
 fn systemcall(id: &u16, frame: &mut frame::Frame) {
     match id {
-        x @ 0...10 => {
+        x @ 0..=10 => {
             frame.register.x8 = *x as u64;
         }
         42 => {

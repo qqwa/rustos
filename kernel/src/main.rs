@@ -1,6 +1,5 @@
 #![no_std]
 #![no_main]
-#![feature(panic_implementation)]
 #![feature(global_asm)]
 #![feature(linkage)]
 #![feature(asm)]
@@ -19,7 +18,7 @@ mod uart;
 
 use crate::arch::ArchImpl;
 
-#[panic_implementation]
+#[panic_handler]
 #[no_mangle]
 pub fn panic(info: &core::panic::PanicInfo) -> ! {
     println!("Error: {}", info);
@@ -49,6 +48,13 @@ pub extern "C" fn rust_entry() -> ! {
         asm!("svc #10");
         asm!("svc #42");
         asm!("svc #15");
+    }
+    proc1();
+    proc2();
+    proc3();
+    println!("done! entering endless loop...");
+    if cfg!(device = "qemu-virt") {
+        println!("Press Ctrl-A X to exit QEMU");
     }
     loop {}
 }

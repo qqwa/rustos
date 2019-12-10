@@ -10,7 +10,7 @@ export RUSTFLAGS
 export RUST_TARGET_PATH
 export RUSTDOC
 
-all: build/$(ARCH)/kernel.bin
+all: build/$(ARCH)/kernel
 
 build/$(ARCH)/kernel: $(shell find kernel) config.toml targets/$(TARGET).json
 	mkdir -p build/$(ARCH)
@@ -18,11 +18,16 @@ build/$(ARCH)/kernel: $(shell find kernel) config.toml targets/$(TARGET).json
 		-- --emit=link=$@ --emit=asm=$@.s \
 		-Z pre-link-arg=--script=kernel/src/arch/$(ARCH)/link.ld
 
-build/$(ARCH)/kernel.bin: build/$(ARCH)/kernel
-	$(LD) --oformat binary -m aarch64elf --script kernel/src/arch/$(ARCH)/link.ld --output $@ $<
+# doesn't seem to be necessary anymore
+# build/$(ARCH)/kernel.bin: build/$(ARCH)/kernel
+# 	$(LD) --oformat binary -m aarch64elf --script kernel/src/arch/$(ARCH)/link.ld --output $@ $<
 
 clean:
 	cargo clean
 	rm -rf build
 
-.PHONY: clean doc
+distclean:
+	cargo clean
+	rm -rf build sysroot
+
+.PHONY: clean distclean doc

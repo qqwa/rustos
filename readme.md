@@ -51,5 +51,5 @@ Execute the `qemu.sh` script.
 
 ### hardware
 
-To run it on real hardware just replace the Linux image with kernel.bin on a
+To run it on real hardware just replace the Linux image with kernel on a
 working boot loader + Linux setup. It was only tested with the phyCORE-i.MX 8M.
